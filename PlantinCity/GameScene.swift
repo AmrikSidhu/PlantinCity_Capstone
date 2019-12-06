@@ -8,8 +8,14 @@
 
 import SpriteKit
 import GameplayKit
+import Firebase
 
 class GameScene: SKScene {
+    
+    var airQualityLable : SKLabelNode?
+    
+    var ref = DatabaseReference()
+    var dataAirQuality = [String]()
     
     var entities = [GKEntity]()
     var graphs = [String : GKGraph]()
@@ -19,7 +25,31 @@ class GameScene: SKScene {
     private var spinnyNode : SKShapeNode?
     
     override func sceneDidLoad() {
-
+        print("Hello from game Scene")
+        ref = Database.database().reference()
+        //self.ref.child("airquality").childByAutoId().setValue(6623)
+               self.ref.child("airquality/airquality").setValue(6623000)
+//        ref.child("airquality").observe(.childAdded) { (snapshot) in
+//            let quality = snapshot.value as? [String : AnyObject]
+//            if let cloudQuality = quality as? String {
+//                self.dataAirQuality.append(cloudQuality)
+//                print(quality as Any)
+//
+//                // adding Air Poluton Label
+//                self.airQualityLable = self.scene?.childNode(withName: "airqualityLabel") as? SKLabelNode
+//                self.airQualityLable?.text = quality
+//            }
+//        }
+        
+       ref = Database.database().reference().child("airquality")
+              ref.observeSingleEvent(of: .value, with: { snapshot in
+                  if let snap = snapshot.value as? [String : AnyObject] {
+                     if let result = snap["airquality"] as? String {
+                      self.airQualityLable?.text = result
+                     }
+                     }
+                  })
+       
         self.lastUpdateTime = 0
         
         // Get label node from scene and store it for use later

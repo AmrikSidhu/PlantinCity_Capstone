@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		757CB4352399C4560043A6F5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 757CB4342399C4560043A6F5 /* GoogleService-Info.plist */; };
+		757CB4372399D5080043A6F5 /* HelperDatabaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757CB4362399D5080043A6F5 /* HelperDatabaseViewController.swift */; };
 		75E50C4D2399BF9500287D90 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E50C4C2399BF9500287D90 /* AppDelegate.swift */; };
 		75E50C4F2399BF9500287D90 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 75E50C4E2399BF9500287D90 /* GameScene.sks */; };
 		75E50C512399BF9500287D90 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 75E50C502399BF9500287D90 /* Actions.sks */; };
@@ -23,6 +24,7 @@
 		47AC655D51D814ADAA1D6342 /* Pods-PlantinCity.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlantinCity.release.xcconfig"; path = "Target Support Files/Pods-PlantinCity/Pods-PlantinCity.release.xcconfig"; sourceTree = "<group>"; };
 		60F933F11A73A1C4B32031AE /* libPods-PlantinCity.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PlantinCity.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		757CB4342399C4560043A6F5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		757CB4362399D5080043A6F5 /* HelperDatabaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperDatabaseViewController.swift; sourceTree = "<group>"; };
 		75E50C492399BF9500287D90 /* PlantinCity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlantinCity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		75E50C4C2399BF9500287D90 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		75E50C4E2399BF9500287D90 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 				75E50C5B2399BF9700287D90 /* LaunchScreen.storyboard */,
 				75E50C5E2399BF9700287D90 /* Info.plist */,
 				757CB4342399C4560043A6F5 /* GoogleService-Info.plist */,
+				757CB4362399D5080043A6F5 /* HelperDatabaseViewController.swift */,
 			);
 			path = PlantinCity;
 			sourceTree = "<group>";
@@ -111,7 +114,6 @@
 				75E50C452399BF9500287D90 /* Sources */,
 				75E50C462399BF9500287D90 /* Frameworks */,
 				75E50C472399BF9500287D90 /* Resources */,
-				B71A2D6D2B07D9C2A1C232D1 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -172,23 +174,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		B71A2D6D2B07D9C2A1C232D1 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PlantinCity/Pods-PlantinCity-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PlantinCity/Pods-PlantinCity-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PlantinCity/Pods-PlantinCity-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		B8666D8386B8972F1286493A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -219,6 +204,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				75E50C532399BF9500287D90 /* GameScene.swift in Sources */,
+				757CB4372399D5080043A6F5 /* HelperDatabaseViewController.swift in Sources */,
 				75E50C552399BF9500287D90 /* GameViewController.swift in Sources */,
 				75E50C4D2399BF9500287D90 /* AppDelegate.swift in Sources */,
 			);
