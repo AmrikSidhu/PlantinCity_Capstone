@@ -13,44 +13,45 @@ import Firebase
 class GameScene: SKScene {
     
     var airQualityLable : SKLabelNode?
-    
+    var dataAirQuality:String?
     var ref = DatabaseReference()
-    var dataAirQuality = [String]()
     
     var entities = [GKEntity]()
     var graphs = [String : GKGraph]()
+    
+     let API_KEY = "acfc24f10275cfffef7f40e6dd2e9b2ceca6f27a"
+    let apiURL = "https://api.waqi.info/map/bounds/?latlng=39.379436,116.091230,40.235643,116.784382&token=acfc24f10275cfffef7f40e6dd2e9b2ceca6f27a"
     
     private var lastUpdateTime : TimeInterval = 0
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     
     override func sceneDidLoad() {
+        self.airQualityLable = self.scene?.childNode(withName: "airqualityLabel") as? SKLabelNode
         print("Hello from game Scene")
         ref = Database.database().reference()
         //self.ref.child("airquality").childByAutoId().setValue(6623)
-               self.ref.child("airquality/airquality").setValue(6623000)
-//        ref.child("airquality").observe(.childAdded) { (snapshot) in
-//            let quality = snapshot.value as? [String : AnyObject]
-//            if let cloudQuality = quality as? String {
-//                self.dataAirQuality.append(cloudQuality)
-//                print(quality as Any)
-//
-//                // adding Air Poluton Label
-//                self.airQualityLable = self.scene?.childNode(withName: "airqualityLabel") as? SKLabelNode
-//                self.airQualityLable?.text = quality
-//            }
-//        }
-        
-       ref = Database.database().reference().child("airquality")
-              ref.observeSingleEvent(of: .value, with: { snapshot in
-                  if let snap = snapshot.value as? [String : AnyObject] {
-                     if let result = snap["airquality"] as? String {
-                      self.airQualityLable?.text = result
-                     }
-                     }
-                  })
-       
+        self.ref.child("airquality/airquality").setValue(6623000)
         self.lastUpdateTime = 0
+        // adding Air Poluton Label
+        
+        ref = Database.database().reference().child("airquality")
+        ref.observeSingleEvent(of: .value, with: { snapshot in
+            if let snap = snapshot.value as? [String : AnyObject] {
+               if let result = snap["airquality"] as? String {
+                self.airQualityLable = self.scene?.childNode(withName: "airqualityLabel") as? SKLabelNode
+                //self.dataAirQuality = result
+                self.airQualityLable?.text = result
+                
+               }
+                else{
+                    self.airQualityLable?.text = "something went wrong"
+                }
+               }
+            
+            })
+//        self.airQualityLable = self.scene?.childNode(withName: "airqualityLabel") as? SKLabelNode
+        //self.airQualityLable?.text = self.dataAirQuality
         
         // Get label node from scene and store it for use later
         self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
@@ -136,5 +137,9 @@ class GameScene: SKScene {
         }
         
         self.lastUpdateTime = currentTime
+    }
+    
+    func getAirQuality()  {
+        // to do
     }
 }
