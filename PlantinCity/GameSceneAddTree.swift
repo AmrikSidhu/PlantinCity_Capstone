@@ -19,6 +19,7 @@ class GameSceneAddTree: SKScene {
         var backtoMain:SKSpriteNode!
     var tree100:SKSpriteNode!
      var tree50:SKSpriteNode!
+    var tree3:SKSpriteNode!
         var touch:UITouch!
         var mouseX:CGFloat! = 100
          var mouseY:CGFloat! = 100
@@ -48,10 +49,10 @@ class GameSceneAddTree: SKScene {
                addChild(self.tree50)
             
             // 3% (tree)
-            self.tree50 = SKSpriteNode(imageNamed: "threepercent")
-            self.tree50.size = CGSize(width: 50, height: 100)
-            self.tree50.position = CGPoint(x: 140, y:80)
-            addChild(self.tree50)
+            self.tree3 = SKSpriteNode(imageNamed: "threepercent")
+            self.tree3.size = CGSize(width: 50, height: 100)
+            self.tree3.position = CGPoint(x: 140, y:80)
+            addChild(self.tree3)
             
             
             
@@ -104,6 +105,48 @@ class GameSceneAddTree: SKScene {
                    }
                 
             }
+            
+            if (self.tree100.contains(touch.location(in: self))){
+                           
+                           if let levelTwoScene = SKScene(fileNamed: "GameSceneMain")
+                              {
+                               scene?.scaleMode = .aspectFit
+                               self.view?.presentScene(levelTwoScene, transition: SKTransition.flipHorizontal(withDuration: 0.5))
+                           self.view?.presentScene(levelTwoScene)
+                            let treeSelected = "hundredpercent"
+                            UserDefaults.standard.set(treeSelected, forKey: "tree100")
+                               
+                              }
+                           
+                       }
+            
+            if (self.tree50.contains(touch.location(in: self))){
+                
+                if let levelTwoScene = SKScene(fileNamed: "GameSceneMain")
+                   {
+                    scene?.scaleMode = .aspectFit
+                    self.view?.presentScene(levelTwoScene, transition: SKTransition.flipHorizontal(withDuration: 0.5))
+                self.view?.presentScene(levelTwoScene)
+                 let treeSelected = "fiftypercent"
+                 UserDefaults.standard.set(treeSelected, forKey: "tree50")
+                    
+                   }
+                
+            }
+            if (self.tree3.contains(touch.location(in: self))){
+                           
+                           if let levelTwoScene = SKScene(fileNamed: "GameSceneMain")
+                              {
+                               scene?.scaleMode = .aspectFit
+                               self.view?.presentScene(levelTwoScene, transition: SKTransition.flipHorizontal(withDuration: 0.5))
+                           self.view?.presentScene(levelTwoScene)
+                            let treeSelected = "threepercent"
+                            UserDefaults.standard.set(treeSelected, forKey: "tree3")
+                               
+                              }
+                           
+                       }
+            
             guard let mousePosition = touches.first?.location(in: self) else {
                 return
             }

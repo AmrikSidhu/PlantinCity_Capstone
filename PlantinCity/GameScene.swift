@@ -19,12 +19,24 @@ class GameScene: SKScene, CLLocationManagerDelegate {
     var cashLabel : SKLabelNode?
     var dataAirQuality:String?
     var cash:Int = 100
+    var treeSelecedIS100=""
+    var treeSelecedIS50=""
+    var treeSelecedIS3=""
     var entities = [GKEntity]()
     var graphs = [String : GKGraph]()
     var addTreeButton:SKSpriteNode!
     var touch:UITouch!
        var mouseX:CGFloat! = 100
        var mouseY:CGFloat! = 100
+    var tree100:[SKSpriteNode] = []
+    var tree50:[SKSpriteNode] = []
+    var tree3:[SKSpriteNode] = []
+    var count100Active = 0
+    var count50Avtive = 0
+    var count3Active = 0
+    var count100 = 1
+    var count50 = 1
+    var count3 = 1
     
      let API_KEY = "acfc24f10275cfffef7f40e6dd2e9b2ceca6f27a"
     var lati = 28.7041
@@ -37,7 +49,6 @@ class GameScene: SKScene, CLLocationManagerDelegate {
     
     // MARK: scene Did Load **************
     override func sceneDidLoad() {
-        
         
         self.airQualityLable = self.scene?.childNode(withName: "airqualityLabel") as? SKLabelNode
         self.cashLabel = self.scene?.childNode(withName: "cashLabel") as? SKLabelNode
@@ -58,7 +69,28 @@ class GameScene: SKScene, CLLocationManagerDelegate {
                    locationManager.desiredAccuracy = kCLLocationAccuracyBest
                    locationManager.startUpdatingLocation()
                }
+        // planting tree all trees afer selecting
+         if let treeSel100 = UserDefaults.standard.string(forKey: "tree100")
+         {
+            print(treeSel100)
+            self.treeSelecedIS100 = treeSel100
+            self.count100Active = self.count100Active + 1
+        }
+        
+        if let treeSel50 = UserDefaults.standard.string(forKey: "tree50")
+        {
+            print(treeSel50)
+            self.treeSelecedIS50 = treeSel50
+            self.count50Avtive = self.count50Avtive + 1
+        }
+        if let treeSel3 = UserDefaults.standard.string(forKey: "tree3")
+        {
+            print(treeSel3)
+            self.treeSelecedIS3 = treeSel3
+            self.count3Active = self.count3Active + 1
+        }
     }
+    
     
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -97,6 +129,48 @@ class GameScene: SKScene, CLLocationManagerDelegate {
     }
     
     // MARK: buttons
+    
+    func spawnTree100()
+    {
+        
+        let newTree100  = SKSpriteNode(imageNamed: "\(self.treeSelecedIS100)")
+       newTree100.size = CGSize(width: 100, height: 180)
+        let randomXPos = Int.random(in: -200 ... 200)
+        let randomYPos = Int.random(in: -300 ... -280)
+        newTree100.position = CGPoint(x: randomXPos, y: randomYPos)
+        addChild(newTree100)
+        
+        self.tree100.append(newTree100)
+        
+    }
+    
+    func spawnTree50()
+     {
+         
+         let newTree50  = SKSpriteNode(imageNamed: "\(self.treeSelecedIS50)")
+        newTree50.size = CGSize(width: 80, height: 160)
+         let randomXPos = Int.random(in: -90 ... 150)
+         let randomYPos = Int.random(in: -300 ... -280)
+         newTree50.position = CGPoint(x: randomXPos, y: randomYPos)
+         addChild(newTree50)
+         
+         self.tree50.append(newTree50)
+         
+     }
+    
+    func spawnTree3()
+        {
+            
+            let newTree3  = SKSpriteNode(imageNamed: "\(self.treeSelecedIS3)")
+           newTree3.size = CGSize(width: 50, height: 130)
+            let randomXPos = Int.random(in: -90 ... 150)
+            let randomYPos = Int.random(in: -300 ... -280)
+            newTree3.position = CGPoint(x: randomXPos, y: randomYPos)
+            addChild(newTree3)
+            
+            self.tree50.append(newTree3)
+            
+        }
    
     // MARK: touch begin
     
@@ -154,5 +228,29 @@ class GameScene: SKScene, CLLocationManagerDelegate {
         }
         
         self.lastUpdateTime = currentTime
+        if(self.count100Active == 1)
+        {
+        if(count100 >= 1)
+        {
+        self.spawnTree100()
+            count100 = count100 - 1
+        }
+        }
+        if(self.count50Avtive == 1)
+        {
+        if(count50 >= 1)
+               {
+               self.spawnTree50()
+                   count50 = count50 - 1
+               }
+        }
+        if(self.count3Active == 1)
+        {
+        if(count3 >= 1)
+               {
+               self.spawnTree3()
+                   count3 = count3 - 1
+               }
+        }
     }
 }
