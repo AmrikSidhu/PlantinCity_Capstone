@@ -16,10 +16,15 @@ import CoreLocation
 class GameScene: SKScene, CLLocationManagerDelegate {
     
     var airQualityLable : SKLabelNode?
+    var cashLabel : SKLabelNode?
     var dataAirQuality:String?
-    
+    var cash:Int = 100
     var entities = [GKEntity]()
     var graphs = [String : GKGraph]()
+    var addTreeButton:SKSpriteNode!
+    var touch:UITouch!
+       var mouseX:CGFloat! = 100
+       var mouseY:CGFloat! = 100
     
      let API_KEY = "acfc24f10275cfffef7f40e6dd2e9b2ceca6f27a"
     var lati = 28.7041
@@ -29,26 +34,24 @@ class GameScene: SKScene, CLLocationManagerDelegate {
 //let apiURL = "https://api.waqi.info/feed/geo:28.7041;77.1025/?token=acfc24f10275cfffef7f40e6dd2e9b2ceca6f27a"
     
     private var lastUpdateTime : TimeInterval = 0
-    private var spinnyNode : SKShapeNode?
     
+    // MARK: scene Did Load **************
     override func sceneDidLoad() {
+        
+        
         self.airQualityLable = self.scene?.childNode(withName: "airqualityLabel") as? SKLabelNode
+        self.cashLabel = self.scene?.childNode(withName: "cashLabel") as? SKLabelNode
         print("Hello from game Scene")
-    
+        self.cashLabel?.text = "$\(self.cash)"
+        
+        self.addTreeButton = SKSpriteNode(imageNamed: "addtree")
+        self.addTreeButton.size = CGSize(width: self.size.width/8, height: self.size.height/22)
+        self.addTreeButton.position = CGPoint(x: 160, y: 360)
+        addChild(self.addTreeButton)
+        
+        
+        
         self.lastUpdateTime = 0
-        
-        // Create shape node to use during mouse interaction
-        let w = (self.size.width + self.size.height) * 0.05
-        self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w * 0.3)
-        
-        if let spinnyNode = self.spinnyNode {
-            spinnyNode.lineWidth = 2.5
-            
-            spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
-            spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
-                                              SKAction.fadeOut(withDuration: 0.5),
-                                              SKAction.removeFromParent()]))
-        }
         locationManager.requestWhenInUseAuthorization()
         if(CLLocationManager.locationServicesEnabled()){
                    locationManager.delegate = self
@@ -67,7 +70,7 @@ class GameScene: SKScene, CLLocationManagerDelegate {
             if let responseStr = response.result.value {
                 let jsonResponse = JSON(responseStr)
                 let jsonQuality = jsonResponse["data"]
-          self.airQualityLable?.text = jsonQuality["aqi"].stringValue
+          self.airQualityLable?.text = "Delhi: \(jsonQuality["aqi"].stringValue)"
                print("weather data printing")
                 
                // let suffix = iconName.suffix(1)
@@ -82,32 +85,43 @@ class GameScene: SKScene, CLLocationManagerDelegate {
     
     
     func touchDown(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.green
-            self.addChild(n)
-        }
+        
     }
     
     func touchMoved(toPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.blue
-            self.addChild(n)
-        }
+        
     }
     
     func touchUp(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.red
-            self.addChild(n)
-        }
+        
     }
+    
+    // MARK: buttons
+   
+    // MARK: touch begin
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        for t in touches { self.touchDown(atPoint: t.location(in: self)) }
+        self.view?.isMultipleTouchEnabled = true
+        self.touch = touches.first!
+        self.mouseX = touch.location(in: self).x
+        self.mouseY = touch.location(in: self).y
+        
+        if (self.addTreeButton.contains(touch.location(in: self))){
+            
+            if let levelTwoScene = SKScene(fileNamed: "GameSceneAddTree")
+               {
+                scene?.scaleMode = .aspectFit
+                self.view?.presentScene(levelTwoScene, transition: SKTransition.flipHorizontal(withDuration: 0.5))
+            self.view?.presentScene(levelTwoScene)
+                
+               }
+            
+        }
+        guard let mousePosition = touches.first?.location(in: self) else {
+            return
+        }
+        print(mousePosition)
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -140,9 +154,5 @@ class GameScene: SKScene, CLLocationManagerDelegate {
         }
         
         self.lastUpdateTime = currentTime
-    }
-    
-    func getAirQuality()  {
-        // to do
     }
 }
