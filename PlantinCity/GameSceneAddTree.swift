@@ -24,6 +24,9 @@ class GameSceneAddTree: SKScene {
         var mouseX:CGFloat! = 100
          var mouseY:CGFloat! = 100
           var arrowButtonsRect:CGRect!
+    var cashMoney = ""
+    var intCash = 0
+    var cashafeter = 0
         
         private var lastUpdateTime : TimeInterval = 0
         
@@ -63,6 +66,14 @@ class GameSceneAddTree: SKScene {
             
             print("screen: \(self.size.width), \(self.size.height)")
             print("Hello from game Scene")
+            
+            
+            if let cashfromuser = UserDefaults.standard.string(forKey: "cash")
+             {
+                self.cashMoney = cashfromuser
+                print("Cash recieved: \(cashfromuser)")
+                self.intCash = Int(self.cashMoney)!
+            }
             
         }
         
@@ -105,8 +116,12 @@ class GameSceneAddTree: SKScene {
                    }
                 
             }
+
             
             if (self.tree100.contains(touch.location(in: self))){
+                
+                
+                    self.cashafeter = self.intCash - 100
                            
                            if let levelTwoScene = SKScene(fileNamed: "GameSceneMain")
                               {
@@ -115,12 +130,19 @@ class GameSceneAddTree: SKScene {
                            self.view?.presentScene(levelTwoScene)
                             let treeSelected = "hundredpercent"
                             UserDefaults.standard.set(treeSelected, forKey: "tree100")
-                               
+                                
+                                
+                                let cashAf = "\(self.cashafeter)"
+                                UserDefaults.standard.set(cashAf, forKey: "cashafter")
+                                
                               }
+                
                            
                        }
             
             if (self.tree50.contains(touch.location(in: self))){
+                
+                self.cashafeter = self.intCash - 50
                 
                 if let levelTwoScene = SKScene(fileNamed: "GameSceneMain")
                    {
@@ -129,11 +151,15 @@ class GameSceneAddTree: SKScene {
                 self.view?.presentScene(levelTwoScene)
                  let treeSelected = "fiftypercent"
                  UserDefaults.standard.set(treeSelected, forKey: "tree50")
+                    let cashAf = "\(self.cashafeter)"
+                                                   UserDefaults.standard.set(cashAf, forKey: "cashafter")
                     
                    }
                 
             }
             if (self.tree3.contains(touch.location(in: self))){
+                
+                self.cashafeter = self.intCash - 20
                            
                            if let levelTwoScene = SKScene(fileNamed: "GameSceneMain")
                               {
@@ -142,6 +168,8 @@ class GameSceneAddTree: SKScene {
                            self.view?.presentScene(levelTwoScene)
                             let treeSelected = "threepercent"
                             UserDefaults.standard.set(treeSelected, forKey: "tree3")
+                                let cashAf = "\(self.cashafeter)"
+                                                               UserDefaults.standard.set(cashAf, forKey: "cashafter")
                                
                               }
                            

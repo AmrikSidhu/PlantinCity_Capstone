@@ -20,6 +20,10 @@
 		75E50C582399BF9500287D90 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 75E50C562399BF9500287D90 /* Main.storyboard */; };
 		75E50C5A2399BF9700287D90 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 75E50C592399BF9700287D90 /* Assets.xcassets */; };
 		75E50C5D2399BF9700287D90 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 75E50C5B2399BF9700287D90 /* LaunchScreen.storyboard */; };
+		75EB7B9C239E55DE0015DB84 /* GameSceneToronto.sks in Resources */ = {isa = PBXBuildFile; fileRef = 75EB7B9B239E55DE0015DB84 /* GameSceneToronto.sks */; };
+		75EB7B9E239E55FB0015DB84 /* GameSceneToronto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EB7B9D239E55FB0015DB84 /* GameSceneToronto.swift */; };
+		75EB7BA0239E57670015DB84 /* GameSceneAddTreeToronto.sks in Resources */ = {isa = PBXBuildFile; fileRef = 75EB7B9F239E57670015DB84 /* GameSceneAddTreeToronto.sks */; };
+		75EB7BA2239E577A0015DB84 /* GameSceneAddTreeToronto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EB7BA1239E577A0015DB84 /* GameSceneAddTreeToronto.swift */; };
 		C20A0440753646E1FB5B66C8 /* libPods-PlantinCity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60F933F11A73A1C4B32031AE /* libPods-PlantinCity.a */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +45,10 @@
 		75E50C592399BF9700287D90 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		75E50C5C2399BF9700287D90 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		75E50C5E2399BF9700287D90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		75EB7B9B239E55DE0015DB84 /* GameSceneToronto.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameSceneToronto.sks; sourceTree = "<group>"; };
+		75EB7B9D239E55FB0015DB84 /* GameSceneToronto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneToronto.swift; sourceTree = "<group>"; };
+		75EB7B9F239E57670015DB84 /* GameSceneAddTreeToronto.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameSceneAddTreeToronto.sks; sourceTree = "<group>"; };
+		75EB7BA1239E577A0015DB84 /* GameSceneAddTreeToronto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneAddTreeToronto.swift; sourceTree = "<group>"; };
 		C2CE5273D614E24AD8D9C909 /* Pods-PlantinCity.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PlantinCity.debug.xcconfig"; path = "Target Support Files/Pods-PlantinCity/Pods-PlantinCity.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,6 +94,10 @@
 				755FD18F239C3461003C2CE8 /* GameSceneStart.swift */,
 				75E50C542399BF9500287D90 /* GameViewController.swift */,
 				75AFD147239C930F00CDDA6C /* GameSceneAddTree.swift */,
+				75EB7B9B239E55DE0015DB84 /* GameSceneToronto.sks */,
+				75EB7B9D239E55FB0015DB84 /* GameSceneToronto.swift */,
+				75EB7B9F239E57670015DB84 /* GameSceneAddTreeToronto.sks */,
+				75EB7BA1239E577A0015DB84 /* GameSceneAddTreeToronto.swift */,
 				75E50C562399BF9500287D90 /* Main.storyboard */,
 				75E50C592399BF9700287D90 /* Assets.xcassets */,
 				75E50C5B2399BF9700287D90 /* LaunchScreen.storyboard */,
@@ -171,9 +183,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75EB7BA0239E57670015DB84 /* GameSceneAddTreeToronto.sks in Resources */,
 				75E50C582399BF9500287D90 /* Main.storyboard in Resources */,
 				75E50C4F2399BF9500287D90 /* GameSceneMain.sks in Resources */,
 				75E50C5A2399BF9700287D90 /* Assets.xcassets in Resources */,
+				75EB7B9C239E55DE0015DB84 /* GameSceneToronto.sks in Resources */,
 				75E50C5D2399BF9700287D90 /* LaunchScreen.storyboard in Resources */,
 				75AFD144239C92AC00CDDA6C /* GameSceneAddTree.sks in Resources */,
 				75E50C512399BF9500287D90 /* Actions.sks in Resources */,
@@ -217,7 +231,9 @@
 				75E50C532399BF9500287D90 /* GameScene.swift in Sources */,
 				755FD190239C3461003C2CE8 /* GameSceneStart.swift in Sources */,
 				75E50C552399BF9500287D90 /* GameViewController.swift in Sources */,
+				75EB7BA2239E577A0015DB84 /* GameSceneAddTreeToronto.swift in Sources */,
 				75AFD148239C930F00CDDA6C /* GameSceneAddTree.swift in Sources */,
+				75EB7B9E239E55FB0015DB84 /* GameSceneToronto.swift in Sources */,
 				75E50C4D2399BF9500287D90 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

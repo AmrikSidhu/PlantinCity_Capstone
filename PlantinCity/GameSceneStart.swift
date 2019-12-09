@@ -30,6 +30,14 @@ class GameSceneStart: SKScene {
     
     override func sceneDidLoad() {
         
+        //Setting up the Game Background
+        self.backgroundColor = SKColor.black;
+        let background = SKSpriteNode(imageNamed: "bgwelcome")
+        background.size = self.size
+        background.position = CGPoint(x: 0, y: 0)
+        background.zPosition = -1
+        addChild(background)
+        
          // MARK: ADDING BUTTONS ************************
         
     self.StrartGmaeButton = SKSpriteNode(imageNamed: "startbutton")
