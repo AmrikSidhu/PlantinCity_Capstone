@@ -130,7 +130,8 @@ class GameSceneAddTree: SKScene {
                            self.view?.presentScene(levelTwoScene)
                             let treeSelected = "hundredpercent"
                             UserDefaults.standard.set(treeSelected, forKey: "tree100")
-                                
+                                let reset = "1"
+                                UserDefaults.standard.set(reset, forKey: "reset")
                                 
                                 let cashAf = "\(self.cashafeter)"
                                 UserDefaults.standard.set(cashAf, forKey: "cashafter")
@@ -151,6 +152,8 @@ class GameSceneAddTree: SKScene {
                 self.view?.presentScene(levelTwoScene)
                  let treeSelected = "fiftypercent"
                  UserDefaults.standard.set(treeSelected, forKey: "tree50")
+                    let reset = "1"
+                    UserDefaults.standard.set(reset, forKey: "reset")
                     let cashAf = "\(self.cashafeter)"
                                                    UserDefaults.standard.set(cashAf, forKey: "cashafter")
                     
@@ -168,6 +171,8 @@ class GameSceneAddTree: SKScene {
                            self.view?.presentScene(levelTwoScene)
                             let treeSelected = "threepercent"
                             UserDefaults.standard.set(treeSelected, forKey: "tree3")
+                                let reset = "1"
+                                UserDefaults.standard.set(reset, forKey: "reset")
                                 let cashAf = "\(self.cashafeter)"
                                                                UserDefaults.standard.set(cashAf, forKey: "cashafter")
                                

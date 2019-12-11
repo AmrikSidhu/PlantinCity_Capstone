@@ -1,10 +1,11 @@
 //
-//  GameScene.swift
+//  GameSceneToronto.swift
 //  PlantinCity
 //
-//  Created by Z Angrazy Jatt on 2019-12-05.
+//  Created by Z Angrazy Jatt on 2019-12-09.
 //  Copyright © 2019 Z Angrazy Jatt. All rights reserved.
 //
+
 import Foundation
 import SpriteKit
 import GameplayKit
@@ -13,13 +14,14 @@ import SwiftyJSON
 import NVActivityIndicatorView
 import CoreLocation
 
-class GameScene: SKScene, CLLocationManagerDelegate {
+class GameSceneToronto: SKScene, CLLocationManagerDelegate {
     
     var airQualityLable : SKLabelNode?
     var cashLabel : SKLabelNode?
     var torontoLabel: SKLabelNode?
     var dataAirQuality:String?
     var torontoCash = 1000
+    var backToToronto:SKSpriteNode!
     var cash:Int = 150
     var treeHight =  180
     var treeWidth = 0
@@ -30,9 +32,7 @@ class GameScene: SKScene, CLLocationManagerDelegate {
     var entities = [GKEntity]()
     var graphs = [String : GKGraph]()
     var addTreeButton:SKSpriteNode!
-    var waterMeButton1:SKSpriteNode!
-    var waterMeButton2:SKSpriteNode!
-    var waterMeButton3:SKSpriteNode!
+    var waterMeButton:SKSpriteNode!
     var moveToToronto:SKSpriteNode!
     var touch:UITouch!
     var mouseX:CGFloat! = 100
@@ -40,30 +40,21 @@ class GameScene: SKScene, CLLocationManagerDelegate {
     var tree100:[SKSpriteNode] = []
     var tree50:[SKSpriteNode] = []
     var tree3:[SKSpriteNode] = []
-    var count100Active = 0
-    var count50Avtive = 0
-    var count3Active = 0
+    var count100ActiveToronto = 0
+    var count50AvtiveToronto = 0
+    var count3ActiveToronto = 0
     var count100 = 1
     var count50 = 1
     var count3 = 1
     var boardLable:SKLabelNode?
     var boardText = "Plant in City"
     var cashInString = ""
-    var citySwitch = false
+    var citySwitch = true
     var apiUrl = ""
-    var newTree100:SKSpriteNode!
-    var newTree50:SKSpriteNode!
-    var newTree3:SKSpriteNode!
-    var timer = 25
-    var updateCount = 1
-    var TimeLabel:SKLabelNode!
-    var resetCounter = 0
-    var waterImageName = "waterme"
-    
     
      let API_KEY = "acfc24f10275cfffef7f40e6dd2e9b2ceca6f27a"
-    var lati = 28.7041
-    var longi = 77.1025
+    var lati = 44.0592
+    var longi = 79.4613
     var activityIndicator: NVActivityIndicatorView!
     let locationManager = CLLocationManager()
     
@@ -75,7 +66,7 @@ class GameScene: SKScene, CLLocationManagerDelegate {
         
         //Setting up the Game Background
         self.backgroundColor = SKColor.black;
-        let background = SKSpriteNode(imageNamed: "bg")
+        let background = SKSpriteNode(imageNamed: "bgToronto")
         background.size = self.size
         background.position = CGPoint(x: -150, y: -250)
         background.zPosition = -1
@@ -85,8 +76,6 @@ class GameScene: SKScene, CLLocationManagerDelegate {
         self.cashLabel = self.scene?.childNode(withName: "cashLabel") as? SKLabelNode
         
         self.torontoLabel = self.scene?.childNode(withName: "torontoLabel") as? SKLabelNode
-        self.TimeLabel = self.scene?.childNode(withName: "timeLabel") as? SKLabelNode
-        
         self.cashLabel?.text = "Account: $\(self.cash)"
         
         self.boardLable = self.scene?.childNode(withName: "boardLabel") as? SKLabelNode
@@ -101,27 +90,15 @@ class GameScene: SKScene, CLLocationManagerDelegate {
         self.addTreeButton.position = CGPoint(x: 160, y: 360)
         addChild(self.addTreeButton)
         
-        self.moveToToronto = SKSpriteNode(imageNamed: "toronto")
-        self.moveToToronto.size = CGSize(width:200, height: 99)
-        self.moveToToronto.position = CGPoint(x: -160, y: 360)
-        addChild(self.moveToToronto)
+        self.waterMeButton = SKSpriteNode(imageNamed: "waterme")
+        self.waterMeButton.size = CGSize(width: 150, height: 169)
+        self.waterMeButton.position = CGPoint(x: -130, y: -40)
+        addChild(self.waterMeButton)
         
-        //MARK: watering buttons
-        
-        self.waterMeButton1 = SKSpriteNode(imageNamed: self.waterImageName)
-        self.waterMeButton1.size = CGSize(width: 50, height: 54)
-        self.waterMeButton1.position = CGPoint(x: -140, y: -410)
-        addChild(self.waterMeButton1)
-        
-        self.waterMeButton2 = SKSpriteNode(imageNamed: self.waterImageName)
-        self.waterMeButton2.size = CGSize(width: 50, height: 54)
-        self.waterMeButton2.position = CGPoint(x: 10, y: -410)
-        addChild(self.waterMeButton2)
-        
-        self.waterMeButton3 = SKSpriteNode(imageNamed: self.waterImageName)
-        self.waterMeButton3.size = CGSize(width: 50, height: 54)
-        self.waterMeButton3.position = CGPoint(x: 150, y: -410)
-        addChild(self.waterMeButton3)
+        self.backToToronto = SKSpriteNode(imageNamed: "done")
+        self.backToToronto.size = CGSize(width: 100, height: 60)
+        self.backToToronto.position = CGPoint(x: -135, y: 369)
+        addChild(self.backToToronto)
         
         
         
@@ -137,21 +114,15 @@ class GameScene: SKScene, CLLocationManagerDelegate {
          {
             if let cashafter = UserDefaults.standard.string(forKey: "cashafter")
                     {
-            if let resetCounter100 = UserDefaults.standard.string(forKey: "reset")
-            {
             print(treeSel100)
-        
-                self.resetCounter = Int(resetCounter100)!
             self.treeSelecedIS100 = treeSel100
-            self.count100Active = self.count100Active + 1
-                self.count100Active = self.resetCounter
+            self.count100ActiveToronto = self.count100ActiveToronto + 1
         
                         
                         self.cashInString = cashafter
                         self.cash = Int(self.cashInString)!
                         self.cashLabel?.text = "Account: $\(self.cash)"
                         print("Counter_afterBuyingTree100: \(self.cash)")
-        }
         }
         }
     
@@ -162,7 +133,7 @@ class GameScene: SKScene, CLLocationManagerDelegate {
             {
             print(treeSel50)
             self.treeSelecedIS50 = treeSel50
-            self.count50Avtive = self.count50Avtive + 1
+            self.count50AvtiveToronto = self.count50AvtiveToronto + 1
                 
                 self.cashInString = cashafter
                                        self.cash = Int(self.cashInString)!
@@ -176,7 +147,7 @@ class GameScene: SKScene, CLLocationManagerDelegate {
                        {
             print(treeSel3)
             self.treeSelecedIS3 = treeSel3
-            self.count3Active = self.count3Active + 1
+            self.count3ActiveToronto = self.count3ActiveToronto + 1
                         
                         self.cashInString = cashafter
                         self.cash = Int(self.cashInString)!
@@ -184,19 +155,18 @@ class GameScene: SKScene, CLLocationManagerDelegate {
                         print("Counter_afterBuyingTree100: \(self.cash)")
         }
         }
-        self.timerCall()
     }
     
     
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-       // let location = locations[0]
-        if(self.citySwitch == false)
+        
+        if(self.citySwitch == true)
         {
-            lati = 28.7041
-            longi = 77.1025
+        lati = 44.0592
+            longi = 79.4613
             self.apiUrl = "https://api.waqi.info/feed/geo:\(self.lati);\(self.longi)/?token=acfc24f10275cfffef7f40e6dd2e9b2ceca6f27a"
-       
+            
         }
     
         Alamofire.request("\(self.apiUrl)").responseJSON {
@@ -237,44 +207,57 @@ class GameScene: SKScene, CLLocationManagerDelegate {
     func spawnTree100()
     {
         
-        self.newTree100  = SKSpriteNode(imageNamed: "\(self.treeSelecedIS100)")
-        self.newTree100.size = CGSize(width: 100, height: self.treeHight)
+        let newTree100  = SKSpriteNode(imageNamed: "\(self.treeSelecedIS100)")
+        newTree100.size = CGSize(width: 100, height: self.treeHight)
         let randomXPos = Int.random(in: -150 ... -100)
         let randomYPos = Int.random(in: -300 ... -280)
-        self.newTree100.position = CGPoint(x: randomXPos, y: randomYPos)
-        addChild(self.newTree100)
+        newTree100.position = CGPoint(x: randomXPos, y: randomYPos)
+        addChild(newTree100)
         
-        self.tree100.append(self.newTree100)
+        self.tree100.append(newTree100)
         
     }
     
+    func spawnTree100watering()
+    {
+        
+        let newTree100  = SKSpriteNode(imageNamed: "\(self.treeSelecedIS100)")
+        newTree100.size = CGSize(width: 100, height: self.treeHight)
+        let randomXPos = Int.random(in: -150 ... -100)
+        let randomYPos = Int.random(in: -300 ... -280)
+        newTree100.position = CGPoint(x: randomXPos, y: randomYPos)
+        //addChild(newTree100)
+        
+        //self.tree100.append(newTree100)
+        
+    }
     
     
     func spawnTree50()
      {
          
-        self.newTree50  = SKSpriteNode(imageNamed: "\(self.treeSelecedIS50)")
-        self.newTree50.size = CGSize(width: 80, height: 160)
+         let newTree50  = SKSpriteNode(imageNamed: "\(self.treeSelecedIS50)")
+        newTree50.size = CGSize(width: 80, height: 160)
          let randomXPos = Int.random(in: -50 ... 100)
          let randomYPos = Int.random(in: -300 ... -280)
-        self.newTree50.position = CGPoint(x: randomXPos, y: randomYPos)
-        addChild(self.newTree50)
+         newTree50.position = CGPoint(x: randomXPos, y: randomYPos)
+         addChild(newTree50)
          
-        self.tree50.append(self.newTree50)
+         self.tree50.append(newTree50)
          
      }
     
     func spawnTree3()
         {
             
-            self.newTree3  = SKSpriteNode(imageNamed: "\(self.treeSelecedIS3)")
-           self.newTree3.size = CGSize(width: 50, height: 130)
+            let newTree3  = SKSpriteNode(imageNamed: "\(self.treeSelecedIS3)")
+           newTree3.size = CGSize(width: 50, height: 130)
             let randomXPos = Int.random(in: 130 ... 170)
             let randomYPos = Int.random(in: -300 ... -280)
-            self.newTree3.position = CGPoint(x: randomXPos, y: randomYPos)
-            addChild(self.newTree3)
+            newTree3.position = CGPoint(x: randomXPos, y: randomYPos)
+            addChild(newTree3)
             
-            self.tree3.append(self.newTree3)
+            self.tree50.append(newTree3)
             
         }
     
@@ -284,14 +267,6 @@ class GameScene: SKScene, CLLocationManagerDelegate {
         dictionary.keys.forEach { key in
             defaults.removeObject(forKey: key)
         }
-    }
-    func timerCall()
-    {
-        if (self.updateCount%60 == 0)&&(self.timer > 0) {
-                    self.timer = self.timer - 1
-                    self.self.TimeLabel.text = "\(self.timer)"
-            self.timerCall()
-                }
     }
 
    
@@ -307,7 +282,7 @@ class GameScene: SKScene, CLLocationManagerDelegate {
         {
         if (self.addTreeButton.contains(touch.location(in: self))){
             
-            if let levelTwoScene = SKScene(fileNamed: "GameSceneAddTree")
+            if let levelTwoScene = SKScene(fileNamed: "GameSceneAddTreeToronto")
                {
                 scene?.scaleMode = .aspectFit
                 self.view?.presentScene(levelTwoScene, transition: SKTransition.flipHorizontal(withDuration: 0.5))
@@ -328,81 +303,31 @@ class GameScene: SKScene, CLLocationManagerDelegate {
         
         // MARK: reset button *****************
         
-        if (self.moveToToronto.contains(touch.location(in: self))){
-            if(self.cash >= self.torontoCash)
-            {
-                
-                if let levelTwoScene = SKScene(fileNamed: "GameSceneToronto")
-                              {
-                               scene?.scaleMode = .aspectFit
-                               self.view?.presentScene(levelTwoScene, transition: SKTransition.flipHorizontal(withDuration: 0.5))
-                           self.view?.presentScene(levelTwoScene)
-                               
-                              }
-                
-            }
-            else
-            {
-                self.torontoLabel?.text = "$1000 required!"
-            }
-    
-            print("Toronto Button Clicked!")
-               
-           }
-        
-        if (self.waterMeButton1.contains(touch.location(in: self))){
-            //self.treeHight = self.treeHight + 10
-            
-            //tree One
-             self.newTree100.size.height = self.newTree100.size.height + 2
-            self.newTree100.position.y = self.newTree100.position.y + 1
-            self.newTree100.size.width = self.newTree100.size.width + 1
-            self.newTree100.position.x = self.newTree100.position.x + 0
+        if (self.waterMeButton.contains(touch.location(in: self))){
+            self.treeHight = self.treeHight + 10
             self.cash = self.cash + 50
             print("cashe after watering: \(self.cash)")
             self.cashLabel?.text = "Account: $\(self.cash)"
-            self.airQualityValue = self.airQualityValue - 3
+            self.airQualityValue = self.airQualityValue - 1
             self.airQualityLable?.text = "Air Pollution:\(self.airQualityValue)"
+            
+            self.spawnTree100watering()
                    
-                   print("Tree100 bing increased, Button Clicked!")
+                   print("waterme Button Clicked!")
                       
                   }
         
-        if (self.waterMeButton2.contains(touch.location(in: self))){
-                   //self.treeHight = self.treeHight + 10
-                   
-                   //tree One
-                    self.newTree50.size.height = self.newTree50.size.height + 2
-                   self.newTree50.position.y = self.newTree50.position.y + 1
-                   self.newTree50.size.width = self.newTree50.size.width + 1
-                   self.newTree50.position.x = self.newTree50.position.x + 0
-                   self.cash = self.cash + 20
-                   print("cashe after watering: \(self.cash)")
-                   self.cashLabel?.text = "Account: $\(self.cash)"
-                   self.airQualityValue = self.airQualityValue - 2
-                   self.airQualityLable?.text = "Air Pollution:\(self.airQualityValue)"
-                          
-                          print("Tree50 bing increased, Button Clicked!")
-                             
-                         }
-        
-    if (self.waterMeButton3.contains(touch.location(in: self))){
-                      //self.treeHight = self.treeHight + 10
-                      
-                      //tree One
-                       self.newTree3.size.height = self.newTree3.size.height + 2
-                      self.newTree3.position.y = self.newTree3.position.y + 1
-                      self.newTree3.size.width = self.newTree3.size.width + 1
-                      self.newTree3.position.x = self.newTree3.position.x + 0
-                      self.cash = self.cash + 10
-                      print("cashe after watering: \(self.cash)")
-                      self.cashLabel?.text = "Account: $\(self.cash)"
-                      self.airQualityValue = self.airQualityValue - 1
-                      self.airQualityLable?.text = "Air Pollution:\(self.airQualityValue)"
-                             
-                             print("Tree3 bing increased, Button Clicked!")
-                                
-                            }
+        if (self.backToToronto.contains(touch.location(in: self))){
+            
+            if let levelTwoScene = SKScene(fileNamed: "GameSceneStart")
+               {
+                scene?.scaleMode = .aspectFit
+                self.view?.presentScene(levelTwoScene, transition: SKTransition.flipHorizontal(withDuration: 0.5))
+            self.view?.presentScene(levelTwoScene)
+                
+               }
+            
+        }
         
         
         guard let mousePosition = touches.first?.location(in: self) else {
@@ -427,7 +352,6 @@ class GameScene: SKScene, CLLocationManagerDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
-
         
         // Initialize _lastUpdateTime if it has not already been
         if (self.lastUpdateTime == 0) {
@@ -443,7 +367,7 @@ class GameScene: SKScene, CLLocationManagerDelegate {
         }
         
         self.lastUpdateTime = currentTime
-        if(self.count100Active == 1)
+        if(self.count100ActiveToronto == 1)
         {
         if(count100 >= 1)
         {
@@ -451,7 +375,7 @@ class GameScene: SKScene, CLLocationManagerDelegate {
             count100 = count100 - 1
         }
         }
-        if(self.count50Avtive == 1)
+        if(self.count50AvtiveToronto == 1)
         {
         if(count50 >= 1)
                {
@@ -459,7 +383,7 @@ class GameScene: SKScene, CLLocationManagerDelegate {
                    count50 = count50 - 1
                }
         }
-        if(self.count3Active == 1)
+        if(self.count3ActiveToronto == 1)
         {
         if(count3 >= 1)
                {
@@ -467,7 +391,5 @@ class GameScene: SKScene, CLLocationManagerDelegate {
                    count3 = count3 - 1
                }
         }
-        
-         
     }
 }

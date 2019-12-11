@@ -87,7 +87,7 @@ class GameSceneStart: SKScene {
         
         if (self.StrartGmaeButton.contains(touch.location(in: self))){
             
-            if let levelTwoScene = SKScene(fileNamed: "GameSceneMain")
+            if let levelTwoScene = SKScene(fileNamed: "GameSceneAddTree")
                {
                 scene?.scaleMode = .aspectFit
                 self.view?.presentScene(levelTwoScene, transition: SKTransition.flipHorizontal(withDuration: 0.5))
