@@ -54,10 +54,14 @@ class GameScene: SKScene, CLLocationManagerDelegate {
     var newTree100:SKSpriteNode!
     var newTree50:SKSpriteNode!
     var newTree3:SKSpriteNode!
-    var timer = 25
-    var updateCount = 1
+    var SecondsRemaining = 60
+    var updateCount = 0
     var TimeLabel:SKLabelNode!
-    var resetCounter = 0
+    var minutes = 0
+    var day = 1
+    var dayLabel:SKLabelNode!
+    var airSwichafter10Second = 0
+    
     var waterImageName = "waterme"
     
     
@@ -86,6 +90,7 @@ class GameScene: SKScene, CLLocationManagerDelegate {
         
         self.torontoLabel = self.scene?.childNode(withName: "torontoLabel") as? SKLabelNode
         self.TimeLabel = self.scene?.childNode(withName: "timeLabel") as? SKLabelNode
+        self.dayLabel = self.scene?.childNode(withName: "dayLabel") as? SKLabelNode
         
         self.cashLabel?.text = "Account: $\(self.cash)"
         
@@ -137,21 +142,18 @@ class GameScene: SKScene, CLLocationManagerDelegate {
          {
             if let cashafter = UserDefaults.standard.string(forKey: "cashafter")
                     {
-            if let resetCounter100 = UserDefaults.standard.string(forKey: "reset")
-            {
+           
             print(treeSel100)
         
-                self.resetCounter = Int(resetCounter100)!
             self.treeSelecedIS100 = treeSel100
             self.count100Active = self.count100Active + 1
-                self.count100Active = self.resetCounter
         
                         
                         self.cashInString = cashafter
                         self.cash = Int(self.cashInString)!
                         self.cashLabel?.text = "Account: $\(self.cash)"
                         print("Counter_afterBuyingTree100: \(self.cash)")
-        }
+        
         }
         }
     
@@ -184,7 +186,7 @@ class GameScene: SKScene, CLLocationManagerDelegate {
                         print("Counter_afterBuyingTree100: \(self.cash)")
         }
         }
-        self.timerCall()
+       // self.timerCall()
     }
     
     
@@ -287,11 +289,15 @@ class GameScene: SKScene, CLLocationManagerDelegate {
     }
     func timerCall()
     {
-        if (self.updateCount%60 == 0)&&(self.timer > 0) {
-                    self.timer = self.timer - 1
-                    self.self.TimeLabel.text = "\(self.timer)"
-            self.timerCall()
-                }
+        self.updateCount = self.updateCount + 1
+                       if (self.updateCount%60 == 0)&&(self.SecondsRemaining > 0) {
+                           self.SecondsRemaining = self.SecondsRemaining - 1
+                           print("Seconds: \(self.SecondsRemaining)")
+                           self.TimeLabel.text = "\(self.SecondsRemaining)"
+                        
+                           
+                       }
+                       
     }
 
    
@@ -467,6 +473,52 @@ class GameScene: SKScene, CLLocationManagerDelegate {
                    count3 = count3 - 1
                }
         }
+        
+        self.timerCall()
+        if(self.SecondsRemaining == 0)
+        {
+            self.SecondsRemaining = 60
+            self.minutes = self.minutes + 1
+            print("Minutes:\(self.minutes)")
+        }
+        if(self.minutes == 2)
+        {
+            self.day = self.day + 1
+            self.dayLabel.text = ("Day: \(self.day)")
+            print("Day: \(self.day)")
+            self.minutes = self.minutes - 2
+            
+        }
+        if(self.SecondsRemaining == 10)
+        {
+            self.airSwichafter10Second = self.airSwichafter10Second + 1
+            self.SecondsRemaining = 9
+           
+        }
+        if(self.airSwichafter10Second == 1)
+        {
+            self.airQualityValue = self.airQualityValue + 10
+            self.airQualityLable?.text = "Air Pollution:\(self.airQualityValue)"
+            self.airSwichafter10Second = self.airSwichafter10Second - 1
+        }
+        if(self.airQualityValue >= 800)
+        {
+            self.boardLable?.text = "Dangerous: Air Pollution Serious"
+        }
+        if(self.airQualityValue > 500 && self.airQualityValue < 800)
+        {
+            self.boardLable?.text = "Do palnting in your city to decerese Air Pollution!"
+        }
+        
+        if(self.airQualityValue < 100)
+        {
+            self.boardLable?.text = "Air Quality is Okay now!"
+        }
+        if(self.airQualityValue > 100 && self.airQualityValue < 500)
+               {
+                   self.boardLable?.text = "Air Quality is Moderate."
+               }
+        
         
          
     }
