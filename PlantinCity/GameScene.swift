@@ -19,7 +19,7 @@ class GameScene: SKScene, CLLocationManagerDelegate {
     var cashLabel : SKLabelNode?
     var torontoLabel: SKLabelNode?
     var dataAirQuality:String?
-    var torontoCash = 1000
+    var torontoCash = 10000
     var cash:Int = 150
     var treeHight =  180
     var treeWidth = 0
@@ -60,7 +60,9 @@ class GameScene: SKScene, CLLocationManagerDelegate {
     var minutes = 0
     var day = 1
     var dayLabel:SKLabelNode!
+    var tryAgain:SKSpriteNode!
     var airSwichafter10Second = 0
+    var jobButton:SKSpriteNode!
     
     var waterImageName = "waterme"
     
@@ -90,6 +92,7 @@ class GameScene: SKScene, CLLocationManagerDelegate {
         
         self.torontoLabel = self.scene?.childNode(withName: "torontoLabel") as? SKLabelNode
         self.TimeLabel = self.scene?.childNode(withName: "timeLabel") as? SKLabelNode
+        self.TimeLabel.isHidden = true
         self.dayLabel = self.scene?.childNode(withName: "dayLabel") as? SKLabelNode
         
         self.cashLabel?.text = "Account: $\(self.cash)"
@@ -105,6 +108,11 @@ class GameScene: SKScene, CLLocationManagerDelegate {
         self.addTreeButton.size = CGSize(width: self.size.width/8, height: self.size.height/22)
         self.addTreeButton.position = CGPoint(x: 160, y: 360)
         addChild(self.addTreeButton)
+        
+        self.tryAgain = SKSpriteNode(imageNamed: "tryagain")
+               self.tryAgain.size = CGSize(width: 300, height: 95)
+               self.tryAgain.position = CGPoint(x:-20 , y:-40)
+               addChild(self.tryAgain)
         
         self.moveToToronto = SKSpriteNode(imageNamed: "toronto")
         self.moveToToronto.size = CGSize(width:200, height: 99)
@@ -128,6 +136,12 @@ class GameScene: SKScene, CLLocationManagerDelegate {
         self.waterMeButton3.position = CGPoint(x: 150, y: -410)
         addChild(self.waterMeButton3)
         
+        // adding job button
+        self.jobButton = SKSpriteNode(imageNamed: "earn")
+        self.jobButton.size = CGSize(width:80, height:56)
+        self.jobButton.position = CGPoint(x: -120, y: 190)
+        addChild(self.jobButton)
+
         
         
         self.lastUpdateTime = 0
@@ -349,7 +363,7 @@ class GameScene: SKScene, CLLocationManagerDelegate {
             }
             else
             {
-                self.torontoLabel?.text = "$1000 required!"
+                self.torontoLabel?.text = "$10,000 required!"
             }
     
             print("Toronto Button Clicked!")
@@ -409,6 +423,29 @@ class GameScene: SKScene, CLLocationManagerDelegate {
                              print("Tree3 bing increased, Button Clicked!")
                                 
                             }
+        if (self.jobButton.contains(touch.location(in: self))){
+                             
+                             self.cash = self.cash + 100
+                             print("cashe after watering: \(self.cash)")
+                             self.cashLabel?.text = "Account: $\(self.cash)"
+                             self.airQualityValue = self.airQualityValue + 50
+                             self.airQualityLable?.text = "Air Pollution:\(self.airQualityValue)"
+                                    
+                                    print("Tree3 bing increased, Button Clicked!")
+                                       
+                                   }
+        
+        if (self.tryAgain.contains(touch.location(in: self))){
+                   
+                   if let levelTwoScene = SKScene(fileNamed: "GameSceneStart")
+                      {
+                       scene?.scaleMode = .aspectFit
+                       self.view?.presentScene(levelTwoScene, transition: SKTransition.flipHorizontal(withDuration: 0.5))
+                   self.view?.presentScene(levelTwoScene)
+                       
+                      }
+                   
+               }
         
         
         guard let mousePosition = touches.first?.location(in: self) else {
@@ -507,7 +544,7 @@ class GameScene: SKScene, CLLocationManagerDelegate {
         }
         if(self.airQualityValue > 500 && self.airQualityValue < 800)
         {
-            self.boardLable?.text = "Do palnting in your city to decerese Air Pollution!"
+            self.boardLable?.text = "Plant trees in your city to decerese Air Pollution!"
         }
         
         if(self.airQualityValue < 100)
@@ -517,6 +554,20 @@ class GameScene: SKScene, CLLocationManagerDelegate {
         if(self.airQualityValue > 100 && self.airQualityValue < 500)
                {
                    self.boardLable?.text = "Air Quality is Moderate."
+               }
+        
+        if(self.airQualityValue < 1500)
+        {
+            self.tryAgain.isHidden = true
+           
+        }
+        if(self.airQualityValue > 1500)
+               {
+                   self.tryAgain.isHidden = false
+                let pauseAction = SKAction.run {
+                               self.view?.isPaused = true
+                           }
+                           self.run(pauseAction)
                }
         
         

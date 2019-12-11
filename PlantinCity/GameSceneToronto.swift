@@ -88,12 +88,12 @@ class GameSceneToronto: SKScene, CLLocationManagerDelegate {
         self.addTreeButton = SKSpriteNode(imageNamed: "addtree")
         self.addTreeButton.size = CGSize(width: self.size.width/8, height: self.size.height/22)
         self.addTreeButton.position = CGPoint(x: 160, y: 360)
-        addChild(self.addTreeButton)
+        self.addTreeButton.removeFromParent()
         
         self.waterMeButton = SKSpriteNode(imageNamed: "waterme")
         self.waterMeButton.size = CGSize(width: 150, height: 169)
         self.waterMeButton.position = CGPoint(x: -130, y: -40)
-        addChild(self.waterMeButton)
+        self.waterMeButton.removeFromParent()
         
         self.backToToronto = SKSpriteNode(imageNamed: "done")
         self.backToToronto.size = CGSize(width: 100, height: 60)
@@ -212,25 +212,25 @@ class GameSceneToronto: SKScene, CLLocationManagerDelegate {
         let randomXPos = Int.random(in: -150 ... -100)
         let randomYPos = Int.random(in: -300 ... -280)
         newTree100.position = CGPoint(x: randomXPos, y: randomYPos)
-        addChild(newTree100)
+        newTree100.removeFromParent()
         
         self.tree100.append(newTree100)
         
     }
     
-    func spawnTree100watering()
-    {
-        
-        let newTree100  = SKSpriteNode(imageNamed: "\(self.treeSelecedIS100)")
-        newTree100.size = CGSize(width: 100, height: self.treeHight)
-        let randomXPos = Int.random(in: -150 ... -100)
-        let randomYPos = Int.random(in: -300 ... -280)
-        newTree100.position = CGPoint(x: randomXPos, y: randomYPos)
-        //addChild(newTree100)
-        
-        //self.tree100.append(newTree100)
-        
-    }
+//    func spawnTree100watering()
+//    {
+//
+//        let newTree100  = SKSpriteNode(imageNamed: "\(self.treeSelecedIS100)")
+//        newTree100.size = CGSize(width: 100, height: self.treeHight)
+//        let randomXPos = Int.random(in: -150 ... -100)
+//        let randomYPos = Int.random(in: -300 ... -280)
+//        newTree100.position = CGPoint(x: randomXPos, y: randomYPos)
+//        //addChild(newTree100)
+//
+//        //self.tree100.append(newTree100)
+//
+//    }
     
     
     func spawnTree50()
@@ -241,7 +241,7 @@ class GameSceneToronto: SKScene, CLLocationManagerDelegate {
          let randomXPos = Int.random(in: -50 ... 100)
          let randomYPos = Int.random(in: -300 ... -280)
          newTree50.position = CGPoint(x: randomXPos, y: randomYPos)
-         addChild(newTree50)
+        newTree50.removeFromParent()
          
          self.tree50.append(newTree50)
          
@@ -255,7 +255,7 @@ class GameSceneToronto: SKScene, CLLocationManagerDelegate {
             let randomXPos = Int.random(in: 130 ... 170)
             let randomYPos = Int.random(in: -300 ... -280)
             newTree3.position = CGPoint(x: randomXPos, y: randomYPos)
-            addChild(newTree3)
+            newTree3.removeFromParent()
             
             self.tree50.append(newTree3)
             
@@ -311,7 +311,7 @@ class GameSceneToronto: SKScene, CLLocationManagerDelegate {
             self.airQualityValue = self.airQualityValue - 1
             self.airQualityLable?.text = "Air Pollution:\(self.airQualityValue)"
             
-            self.spawnTree100watering()
+            //self.spawnTree100watering()
                    
                    print("waterme Button Clicked!")
                       

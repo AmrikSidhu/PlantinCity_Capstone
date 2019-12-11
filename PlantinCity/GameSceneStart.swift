@@ -92,6 +92,8 @@ class GameSceneStart: SKScene {
                 scene?.scaleMode = .aspectFit
                 self.view?.presentScene(levelTwoScene, transition: SKTransition.flipHorizontal(withDuration: 0.5))
             self.view?.presentScene(levelTwoScene)
+                let cashIs = 150
+                UserDefaults.standard.set(cashIs, forKey: "cash")
                 
                }
             
